@@ -1,3 +1,14 @@
+"""
+RISC-V Numeric Operations Simulator - Part 1: Foundation
+Commit 1/7: Basic bit vector representation and utilities
+Timeline: Day 1 (Monday)
+
+This initial commit establishes the fundamental data structure for the project:
+- BitVector class for bit-level operations
+- Conversion utilities (hex, binary)
+- No use of built-in numeric operators
+"""
+
 class BitVector:
     """Represents values as arrays of bits (0/1)
     This is the foundation for all numeric operations in the simulator.
@@ -53,4 +64,41 @@ class BitVector:
             result += str(bit)
         return result
     
+    #AI Start
+    @staticmethod
+    def from_hex(hex_str):
+        """Create BitVector from hex string
+        Manual hex-to-binary conversion without int(..., 16)
+        """
+        # Lookup table for hex digit to 4-bit binary
+        hex_map = {
+            '0': [0,0,0,0], '1': [0,0,0,1], '2': [0,0,1,0], '3': [0,0,1,1],
+            '4': [0,1,0,0], '5': [0,1,0,1], '6': [0,1,1,0], '7': [0,1,1,1],
+            '8': [1,0,0,0], '9': [1,0,0,1], 'A': [1,0,1,0], 'B': [1,0,1,1],
+            'C': [1,1,0,0], 'D': [1,1,0,1], 'E': [1,1,1,0], 'F': [1,1,1,1]
+        }
+        
+        # Remove 0x prefix if present
+        if hex_str.startswith('0x') or hex_str.startswith('0X'):
+            hex_str = hex_str[2:]
+        
+        bits = []
+        for char in hex_str.upper():
+            if char in hex_map:
+                bits.extend(hex_map[char])
+            else:
+                raise ValueError(f"Invalid hex character: {char}")
+        
+        return BitVector(bits)
     
+    @staticmethod
+    def from_binary(bin_str):
+        """Create BitVector from binary string
+        Args:
+            bin_str: string of '0' and '1' characters, may include underscores
+        """
+        clean = bin_str.replace('_', '').replace(' ', '')
+        bits = [int(b) for b in clean]
+        return BitVector(bits)
+    #AI End
+
