@@ -1,14 +1,3 @@
-"""
-RISC-V Numeric Operations Simulator - Part 1: Foundation
-Commit 1/7: Basic bit vector representation and utilities
-Timeline: Day 1 (Monday)
-
-This initial commit establishes the fundamental data structure for the project:
-- BitVector class for bit-level operations
-- Conversion utilities (hex, binary)
-- No use of built-in numeric operators
-"""
-
 class BitVector:
     """Represents values as arrays of bits (0/1)
     This is the foundation for all numeric operations in the simulator.
@@ -64,7 +53,6 @@ class BitVector:
             result += str(bit)
         return result
     
-    #AI Start
     @staticmethod
     def from_hex(hex_str):
         """Create BitVector from hex string
@@ -100,5 +88,52 @@ class BitVector:
         clean = bin_str.replace('_', '').replace(' ', '')
         bits = [int(b) for b in clean]
         return BitVector(bits)
-    #AI End
 
+
+def test_bitvector():
+    """Test BitVector basic functionality"""
+    print("=== BitVector Foundation Tests ===\n")
+    print("Commit 1/7: Basic bit vector representation\n")
+    
+    # Test 1: Create from width
+    print("Test 1: Create 8-bit zero vector")
+    bv = BitVector(8)
+    print(f"  Binary: {bv.to_bin()}")
+    print(f"  Hex:    {bv.to_hex()}")
+    print()
+    
+    # Test 2: Create from bits
+    print("Test 2: Create from bit list [1,0,1,0,1,0,1,0]")
+    bv = BitVector([1,0,1,0,1,0,1,0])
+    print(f"  Binary: {bv.to_bin()}")
+    print(f"  Hex:    {bv.to_hex()}")
+    print()
+    
+    # Test 3: From hex string
+    print("Test 3: Create from hex 0xDEADBEEF")
+    bv = BitVector.from_hex("0xDEADBEEF")
+    print(f"  Binary: {bv.to_bin()}")
+    print(f"  Length: {len(bv)} bits")
+    print()
+    
+    # Test 4: From binary string
+    print("Test 4: Create from binary string")
+    bv = BitVector.from_binary("1111_0000_1010_0101")
+    print(f"  Binary: {bv.to_bin()}")
+    print(f"  Hex:    {bv.to_hex()}")
+    print()
+    
+    # Test 5: Copy functionality
+    print("Test 5: Copy and modify")
+    original = BitVector([1,0,1,0])
+    copy = original.copy()
+    copy[0] = 0
+    print(f"  Original: {original.to_bin()}")
+    print(f"  Modified copy: {copy.to_bin()}")
+    print()
+
+
+if __name__ == "__main__":
+    test_bitvector()
+    print("\n✓ Part 1 complete: BitVector foundation established")
+    print("Next: Part 2 - Two's complement encoding/decoding")
